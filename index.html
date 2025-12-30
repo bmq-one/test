@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideen Sammlung</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💡 Meine Ideen Sammlung</h1>
+            <p class="subtitle">Sammle, bewerte und verwalte all deine Ideen an einem Ort</p>
+        </header>
+
+        <div class="add-idea-section">
+            <h2>Neue Idee hinzufügen</h2>
+            <form id="ideaForm">
+                <div class="form-group">
+                    <label for="ideaTitle">Titel *</label>
+                    <input type="text" id="ideaTitle" placeholder="Gib deiner Idee einen Titel..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ideaDescription">Beschreibung *</label>
+                    <textarea id="ideaDescription" rows="4" placeholder="Beschreibe deine Idee..." required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ideaCategory">Kategorie</label>
+                        <select id="ideaCategory">
+                            <option value="allgemein">Allgemein</option>
+                            <option value="geschäft">Geschäft</option>
+                            <option value="projekt">Projekt</option>
+                            <option value="persönlich">Persönlich</option>
+                            <option value="innovation">Innovation</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ideaPriority">Priorität</label>
+                        <select id="ideaPriority">
+                            <option value="niedrig">Niedrig</option>
+                            <option value="mittel" selected>Mittel</option>
+                            <option value="hoch">Hoch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ideaRating">Bewertung</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1">☆</span>
+                        <span class="star" data-rating="2">☆</span>
+                        <span class="star" data-rating="3">☆</span>
+                        <span class="star" data-rating="4">☆</span>
+                        <span class="star" data-rating="5">☆</span>
+                    </div>
+                    <input type="hidden" id="ideaRating" value="0">
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <span id="btnText">Idee speichern</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none;">
+                    Abbrechen
+                </button>
+            </form>
+        </div>
+
+        <div class="ideas-section">
+            <div class="section-header">
+                <h2>Meine Ideen</h2>
+                <div class="filter-controls">
+                    <select id="filterCategory">
+                        <option value="alle">Alle Kategorien</option>
+                        <option value="allgemein">Allgemein</option>
+                        <option value="geschäft">Geschäft</option>
+                        <option value="projekt">Projekt</option>
+                        <option value="persönlich">Persönlich</option>
+                        <option value="innovation">Innovation</option>
+                    </select>
+                    <select id="sortBy">
+                        <option value="newest">Neueste zuerst</option>
+                        <option value="oldest">Älteste zuerst</option>
+                        <option value="rating">Beste Bewertung</option>
+                        <option value="priority">Höchste Priorität</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="ideasContainer" class="ideas-grid">
+                <!-- Ideen werden hier dynamisch eingefügt -->
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <p>📝 Noch keine Ideen vorhanden.</p>
+                <p>Füge deine erste Idee hinzu!</p>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number" id="totalIdeas">0</div>
+                <div class="stat-label">Gesamt Ideen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="highPriorityIdeas">0</div>
+                <div class="stat-label">Hohe Priorität</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="averageRating">0.0</div>
+                <div class="stat-label">Durchschn. Bewertung</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
