@@ -1,170 +1,304 @@
-# 💡 Ideen Sammlung App
+# 🤖 AI Newsletter Tool
 
-Eine moderne, benutzerfreundliche Web-Anwendung zum Sammeln, Verwalten und Bewerten deiner Ideen.
+Ein vollautomatisches, KI-gestütztes Newsletter-System, das relevante Artikel über künstliche Intelligenz sammelt, verarbeitet und daraus personalisierte Newsletter erstellt.
 
 ## ✨ Features
 
-- **Ideen hinzufügen**: Erstelle neue Ideen mit Titel, Beschreibung, Kategorie und Priorität
-- **Bewertungssystem**: Bewerte deine Ideen mit einem 5-Sterne-System
-- **Bearbeiten & Löschen**: Aktualisiere oder entferne Ideen jederzeit
-- **Kategorisierung**: Organisiere Ideen in verschiedenen Kategorien (Allgemein, Geschäft, Projekt, Persönlich, Innovation)
-- **Prioritätsstufen**: Setze Prioritäten (Niedrig, Mittel, Hoch)
-- **Filtern & Sortieren**: Filter nach Kategorien und sortiere nach Datum, Bewertung oder Priorität
-- **Statistiken**: Sieh auf einen Blick die Gesamtanzahl, Ideen mit hoher Priorität und Durchschnittsbewertung
-- **Datenpersistenz**: Alle Daten werden lokal im Browser gespeichert (localStorage)
-- **Responsives Design**: Funktioniert perfekt auf Desktop, Tablet und Smartphone
+### 🎯 Kernfunktionalität
+- **Automatische Aggregation**: Sammelt Artikel aus RSS-Feeds, Websites und APIs
+- **KI-Verarbeitung**: Nutzt OpenAI GPT-4 für intelligente Zusammenfassungen und Newsletter-Generierung
+- **Personalisierung**: Anpassbarer Schreibstil und Tonalität
+- **Automatisierung**: Cron-basierte Jobs für regelmäßige Updates
+- **Moderne Web-UI**: Next.js Frontend mit Tailwind CSS
+- **RESTful API**: Express.js Backend mit PostgreSQL Datenbank
 
-## 🚀 Installation & Verwendung
+### 📰 Newsletter-Features
+- Intelligente Artikel-Auswahl basierend auf Relevanz-Scores
+- Automatische Zusammenfassungen jedes Artikels
+- Gruppierung und logische Strukturierung der Inhalte
+- Markdown und HTML-Output
+- Archivierung aller Newsletter
 
-### Einfacher Start
+### 🔧 Admin-Funktionen
+- Quellen-Management (RSS, Websites, APIs)
+- Manuelle Newsletter-Generierung
+- Statistik-Dashboard
+- Artikel-Verwaltung
 
-1. Öffne die `index.html` Datei in deinem Browser
-2. Das war's! Die App ist sofort einsatzbereit
+## 🏗️ Architektur
 
-### Mit lokalem Server (empfohlen für Entwicklung)
+```
+ai-newsletter-tool/
+├── backend/              # Express.js Backend
+│   ├── src/
+│   │   ├── config/      # Datenbank-Konfiguration
+│   │   ├── routes/      # API Endpoints
+│   │   ├── services/    # Business Logic
+│   │   │   ├── ai.service.js        # OpenAI Integration
+│   │   │   ├── scraper.service.js   # Content Aggregation
+│   │   │   ├── newsletter.service.js # Newsletter Logic
+│   │   │   └── cron.service.js      # Automatisierung
+│   │   └── utils/       # Utilities & Logger
+│   ├── prisma/          # Datenbankschema
+│   └── package.json
+│
+├── frontend/            # Next.js Frontend
+│   ├── src/
+│   │   ├── app/         # Next.js App Router Pages
+│   │   ├── components/  # React Komponenten
+│   │   └── lib/         # API Client & Utils
+│   └── package.json
+│
+└── README.md
+```
+
+## 🚀 Installation & Setup
+
+### Voraussetzungen
+
+- **Node.js**: Version 18+
+- **PostgreSQL**: Version 14+
+- **OpenAI API Key**: Von [platform.openai.com](https://platform.openai.com)
+
+### 1. Repository klonen
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Python 2
-python -m SimpleHTTPServer 8000
-
-# Node.js (mit npx)
-npx http-server
+git clone <repository-url>
+cd ai-newsletter-tool
 ```
 
-Öffne dann `http://localhost:8000` in deinem Browser.
+### 2. Backend Setup
 
-## 📖 Bedienung
+```bash
+cd backend
 
-### Neue Idee hinzufügen
+# Dependencies installieren
+npm install
 
-1. Fülle das Formular oben aus:
-   - **Titel** (Pflichtfeld): Gib deiner Idee einen aussagekräftigen Namen
-   - **Beschreibung** (Pflichtfeld): Beschreibe deine Idee im Detail
-   - **Kategorie**: Wähle eine passende Kategorie
-   - **Priorität**: Setze die Wichtigkeit (Niedrig/Mittel/Hoch)
-   - **Bewertung**: Klicke auf die Sterne (1-5) um die Idee zu bewerten
-2. Klicke auf "Idee speichern"
+# Umgebungsvariablen konfigurieren
+cp .env.example .env
 
-### Idee bearbeiten
-
-1. Klicke auf den "Bearbeiten"-Button bei der gewünschten Idee
-2. Das Formular wird mit den aktuellen Daten gefüllt
-3. Nimm deine Änderungen vor
-4. Klicke auf "Idee aktualisieren"
-5. Mit "Abbrechen" kannst du die Bearbeitung verwerfen
-
-### Idee löschen
-
-1. Klicke auf den "Löschen"-Button bei der Idee
-2. Bestätige die Löschung im Dialog
-
-### Filtern & Sortieren
-
-- **Filter nach Kategorie**: Wähle im Dropdown "Alle Kategorien" oder eine spezifische Kategorie
-- **Sortierung**:
-  - Neueste zuerst (Standard)
-  - Älteste zuerst
-  - Beste Bewertung
-  - Höchste Priorität
-
-## 🎨 Features im Detail
-
-### Bewertungssystem
-- Interaktive Sterne (1-5)
-- Hover-Effekt zur Vorschau
-- Visuelles Feedback bei der Auswahl
-
-### Kategorien
-- Allgemein
-- Geschäft
-- Projekt
-- Persönlich
-- Innovation
-
-### Prioritätsstufen
-- **Niedrig** (grün): Für Ideen, die Zeit haben
-- **Mittel** (gelb): Standard-Priorität
-- **Hoch** (rot): Wichtige, dringende Ideen
-
-### Statistiken Dashboard
-- **Gesamt Ideen**: Anzahl aller gespeicherten Ideen
-- **Hohe Priorität**: Wie viele Ideen als "Hoch" markiert sind
-- **Durchschn. Bewertung**: Durchschnittliche Sterne-Bewertung aller Ideen
-
-## 💾 Datenspeicherung
-
-Die App verwendet den **localStorage** des Browsers zur Datenspeicherung:
-- Alle Daten bleiben lokal auf deinem Gerät
-- Keine Server-Kommunikation erforderlich
-- Daten bleiben auch nach dem Schließen des Browsers erhalten
-- **Wichtig**: Beim Löschen der Browser-Daten gehen auch die Ideen verloren
-
-### Daten exportieren/sichern
-
-Die Daten sind im localStorage unter dem Key `ideas` gespeichert. Du kannst sie in der Browser-Konsole sichern:
-
-```javascript
-// Daten exportieren
-console.log(localStorage.getItem('ideas'));
-
-// Daten importieren (ersetze [JSON-DATEN] mit deinen gesicherten Daten)
-localStorage.setItem('ideas', '[JSON-DATEN]');
+# .env Datei bearbeiten und folgende Werte setzen:
+# - DATABASE_URL: PostgreSQL Connection String
+# - OPENAI_API_KEY: Dein OpenAI API Key
+# - PORT: 3001 (oder anderer Port)
 ```
 
-## 🛠️ Technologie-Stack
+**Beispiel .env:**
+```env
+PORT=3001
+NODE_ENV=development
+DATABASE_URL="postgresql://user:password@localhost:5432/ai_newsletter?schema=public"
+OPENAI_API_KEY=sk-...
+NEWSLETTER_FREQUENCY=daily
+MAX_ARTICLES_PER_NEWSLETTER=10
+```
 
-- **HTML5**: Struktur und Semantik
-- **CSS3**: Modernes, responsives Design mit CSS Grid und Flexbox
-- **Vanilla JavaScript**: Keine Abhängigkeiten, reine JavaScript-Logik
-- **localStorage API**: Clientseitige Datenpersistenz
+```bash
+# Datenbank Migrations ausführen
+npm run prisma:migrate
 
-## 🎯 Anwendungsfälle
+# Prisma Client generieren
+npm run prisma:generate
 
-- **Brainstorming**: Sammle spontane Ideen
-- **Projektplanung**: Organisiere und priorisiere Projektideen
-- **Persönliche Entwicklung**: Halte Ziele und Verbesserungsideen fest
-- **Geschäftsideen**: Bewerte und vergleiche Business-Konzepte
-- **Kreative Projekte**: Sammle Inspirationen und kreative Einfälle
+# Backend starten
+npm run dev
+```
 
-## 🔒 Sicherheit & Datenschutz
+Backend läuft nun auf `http://localhost:3001`
 
-- Alle Daten bleiben lokal auf deinem Gerät
-- Keine Datenübertragung an externe Server
-- Keine Cookies oder Tracking
-- XSS-Schutz durch HTML-Escaping
+### 3. Frontend Setup
 
-## 🌐 Browser-Kompatibilität
+```bash
+cd ../frontend
 
-Die App funktioniert in allen modernen Browsern:
-- Chrome/Edge (Version 90+)
-- Firefox (Version 88+)
-- Safari (Version 14+)
-- Opera (Version 76+)
+# Dependencies installieren
+npm install
 
-## 📱 Responsive Design
+# Umgebungsvariablen konfigurieren
+cp .env.local.example .env.local
 
-- **Desktop**: Optimale Darstellung mit Grid-Layout
-- **Tablet**: Angepasstes Layout für mittlere Bildschirme
-- **Smartphone**: Mobile-optimierte Ansicht mit einzelner Spalte
+# .env.local bearbeiten:
+# NEXT_PUBLIC_API_URL=http://localhost:3001/api
+```
 
-## 🚧 Zukünftige Erweiterungen
+```bash
+# Frontend starten
+npm run dev
+```
 
-Mögliche Features für die Zukunft:
-- Export/Import als JSON-Datei
-- Suchfunktion
-- Tags/Labels für bessere Organisation
-- Dunkelmodus
-- Anhänge (Bilder, Links)
-- Erinnerungen/Notifications
-- Cloud-Synchronisation
-- Collaboration-Features
+Frontend läuft nun auf `http://localhost:3000`
 
-## 📄 Lizenz
+## 📖 Verwendung
 
-Dieses Projekt steht zur freien Verfügung für persönliche und kommerzielle Nutzung.
+### 1. Quellen hinzufügen
+
+1. Navigiere zu `http://localhost:3000/admin/sources`
+2. Klicke auf "Neue Quelle"
+3. Füge RSS-Feeds, Websites oder API-Endpunkte hinzu
+
+**Beispiel-Quellen:**
+- OpenAI Blog: `https://openai.com/blog/rss.xml` (RSS)
+- Anthropic News: `https://www.anthropic.com/news` (RSS)
+- AI News: Weitere KI-News Feeds
+
+### 2. Artikel abrufen
+
+**Automatisch (via Cron):**
+- Artikel werden alle 6 Stunden automatisch abgerufen
+- Konfigurierbar in `backend/src/services/cron.service.js`
+
+**Manuell:**
+- Im Admin Dashboard auf "Artikel abrufen" klicken
+- Oder via API: `POST http://localhost:3001/api/sources/fetch-all`
+
+### 3. Newsletter generieren
+
+**Automatisch (via Cron):**
+- Newsletter werden basierend auf `NEWSLETTER_FREQUENCY` generiert
+- Standard: Täglich um 8:00 Uhr
+- Optionen: `hourly`, `daily`, `weekly`, `biweekly`
+
+**Manuell:**
+- Im Admin Dashboard auf "Newsletter generieren" klicken
+- Oder via API: `POST http://localhost:3001/api/newsletters/generate`
+
+### 4. Newsletter ansehen
+
+- Homepage: Zeigt neuesten Newsletter
+- `/newsletters`: Alle veröffentlichten Newsletter
+- `/newsletters/[id]`: Einzelner Newsletter mit Quellen
+
+## 🎨 Stil-Anpassung
+
+Der Newsletter-Stil kann über die Datenbank-Konfiguration angepasst werden:
+
+```sql
+INSERT INTO "Config" (id, key, value, description) VALUES
+  ('1', 'ai_tone', 'professional but accessible', 'Tonalität des Newsletters'),
+  ('2', 'ai_target_audience', 'AI enthusiasts and developers', 'Zielgruppe'),
+  ('3', 'ai_writing_style', 'clear, engaging, informative', 'Schreibstil'),
+  ('4', 'ai_length_preference', 'concise but comprehensive', 'Längen-Präferenz');
+```
+
+Diese Werte werden von der AI bei der Newsletter-Generierung berücksichtigt.
+
+## 🔧 API Dokumentation
+
+### Newsletter Endpoints
+
+- `GET /api/newsletters` - Alle Newsletter (mit Pagination)
+- `GET /api/newsletters/latest` - Neuester Newsletter
+- `GET /api/newsletters/:id` - Newsletter nach ID
+- `POST /api/newsletters/generate` - Newsletter generieren
+- `PATCH /api/newsletters/:id/publish` - Newsletter veröffentlichen
+- `DELETE /api/newsletters/:id` - Newsletter löschen
+
+### Sources Endpoints
+
+- `GET /api/sources` - Alle Quellen
+- `POST /api/sources` - Neue Quelle erstellen
+- `PATCH /api/sources/:id` - Quelle aktualisieren
+- `DELETE /api/sources/:id` - Quelle löschen
+- `POST /api/sources/fetch-all` - Alle Quellen abrufen
+
+### Articles Endpoints
+
+- `GET /api/articles` - Alle Artikel (mit Filtering)
+- `GET /api/articles/stats/overview` - Artikel-Statistiken
+- `PATCH /api/articles/:id` - Artikel aktualisieren
+
+## 🗄️ Datenbank-Schema
+
+**Haupttabellen:**
+- `Source`: Newsletter-Quellen (RSS, Websites, APIs)
+- `Article`: Gesammelte Artikel
+- `Newsletter`: Generierte Newsletter
+- `NewsletterArticle`: Verknüpfung Newsletter ↔ Artikel
+- `Config`: Konfigurations-Einstellungen
+
+Siehe `backend/prisma/schema.prisma` für vollständiges Schema.
+
+## 🛠️ Entwicklung
+
+### Backend Development
+
+```bash
+cd backend
+
+# Development Server mit Auto-Reload
+npm run dev
+
+# Prisma Studio (Datenbank GUI)
+npm run prisma:studio
+
+# Logs anzeigen
+tail -f logs/combined.log
+```
+
+### Frontend Development
+
+```bash
+cd frontend
+
+# Development Server
+npm run dev
+
+# Produktions-Build
+npm run build
+
+# Produktions-Server
+npm start
+```
+
+## 📦 Deployment
+
+### Backend (Railway / Render / Heroku)
+
+1. PostgreSQL Datenbank bereitstellen
+2. Umgebungsvariablen setzen
+3. Build-Befehl: `npm install && npm run prisma:generate && npm run prisma:migrate`
+4. Start-Befehl: `npm start`
+
+### Frontend (Vercel / Netlify)
+
+1. Repository verbinden
+2. Build-Befehl: `npm run build`
+3. Output-Verzeichnis: `.next`
+4. Umgebungsvariablen setzen (`NEXT_PUBLIC_API_URL`)
+
+## 🔒 Sicherheit
+
+- **API Keys**: Niemals committen, nur via .env
+- **CORS**: Konfiguriert für Frontend-Domain
+- **Input Validation**: Prisma verhindert SQL-Injection
+- **Rate Limiting**: Empfohlen für Produktionsumgebung
+
+## 🐛 Troubleshooting
+
+**Problem: Database connection failed**
+- Prüfe `DATABASE_URL` in `.env`
+- Stelle sicher, dass PostgreSQL läuft
+- Führe Migrations aus: `npm run prisma:migrate`
+
+**Problem: OpenAI API Fehler**
+- Prüfe `OPENAI_API_KEY`
+- Stelle sicher, dass du Guthaben hast
+- Rate Limits beachten
+
+**Problem: Keine Artikel werden gefunden**
+- Prüfe ob Quellen aktiv sind (`isActive: true`)
+- Teste URLs manuell (RSS-Feeds im Browser öffnen)
+- Prüfe Logs: `logs/combined.log`
+
+**Problem: Frontend kann Backend nicht erreichen**
+- Prüfe `NEXT_PUBLIC_API_URL` in `.env.local`
+- Stelle sicher, dass Backend läuft
+- CORS-Konfiguration prüfen
+
+## 📝 Lizenz
+
+MIT - Frei verwendbar für persönliche und kommerzielle Projekte.
 
 ## 🤝 Beitragen
 
@@ -172,4 +306,4 @@ Feedback und Verbesserungsvorschläge sind willkommen!
 
 ---
 
-**Viel Spaß beim Sammeln deiner Ideen! 💡**
+**Viel Erfolg mit deinem AI Newsletter! 🚀**

@@ -1,0 +1,98 @@
+// Prisma Schema für AI Newsletter Tool
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Newsletter-Quellen (z.B. RSS-Feeds, Websites)
+model Source {
+  id          String   @id @default(cuid())
+  name        String
+  url         String   @unique
+  type        SourceType
+  category    String?  // z.B. "AI Research", "AI News", "AI Tools"
+  isActive    Boolean  @default(true)
+  lastFetched DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  articles    Article[]
+}
+
+enum SourceType {
+  RSS
+  WEBSITE
+  API
+}
+
+// Einzelne Artikel aus den Quellen
+model Article {
+  id          String   @id @default(cuid())
+  sourceId    String
+  source      Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  title       String
+  url         String   @unique
+  content     String?  @db.Text
+  summary     String?  @db.Text
+  author      String?
+  publishedAt DateTime?
+  fetchedAt   DateTime @default(now())
+
+  isProcessed Boolean  @default(false)
+  isIncluded  Boolean  @default(false) // Wird im Newsletter verwendet
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  newsletters NewsletterArticle[]
+}
+
+// Generierte Newsletter
+model Newsletter {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text  // Der von AI generierte Newsletter
+  htmlContent String?  @db.Text  // HTML-Version für Email/Website
+
+  status      NewsletterStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  articles    NewsletterArticle[]
+}
+
+enum NewsletterStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// Verbindungstabelle zwischen Newsletter und Artikeln
+model NewsletterArticle {
+  id           String     @id @default(cuid())
+  newsletterId String
+  newsletter   Newsletter @relation(fields: [newsletterId], references: [id], onDelete: Cascade)
+  articleId    String
+  article      Article    @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  order        Int        // Reihenfolge im Newsletter
+  createdAt    DateTime   @default(now())
+
+  @@unique([newsletterId, articleId])
+}
+
+// Konfiguration für AI-Stil und Präferenzen
+model Config {
+  id              String   @id @default(cuid())
+  key             String   @unique
+  value           String   @db.Text
+  description     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
