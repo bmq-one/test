@@ -4,10 +4,16 @@ import prisma from '../config/database.js';
 
 const logger = createLogger('AI-Service');
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+// Lazy initialize OpenAI client
+let openai = null;
+function getOpenAI() {
+  if (!openai) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
+  }
+  return openai;
+}
 
 /**
  * Holt die AI-Stil-Konfiguration aus der Datenbank
@@ -59,7 +65,7 @@ Inhalt: ${article.content}
 Schreibe die Zusammenfassung in einem ${styleConfig.tone} Ton für ${styleConfig.targetAudience}.
 Die Zusammenfassung sollte ${styleConfig.lengthPreference} sein (2-3 Sätze).`;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
         {
@@ -118,7 +124,7 @@ Der Newsletter sollte:
 
 Schreibe den Newsletter in Markdown-Format.`;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4-turbo-preview',
       messages: [
         {
@@ -162,7 +168,7 @@ Berücksichtige:
 
 Antworte nur mit einer Zahl von 1-10.`;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [
         { role: 'user', content: prompt }
