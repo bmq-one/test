@@ -4,8 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 // Newsletter-Quellen (z.B. RSS-Feeds, Websites)
@@ -37,8 +37,8 @@ model Article {
 
   title       String
   url         String   @unique
-  content     String?  @db.Text
-  summary     String?  @db.Text
+  content     String?
+  summary     String?
   author      String?
   publishedAt DateTime?
   fetchedAt   DateTime @default(now())
@@ -56,8 +56,8 @@ model Article {
 model Newsletter {
   id          String   @id @default(cuid())
   title       String
-  content     String   @db.Text  // Der von AI generierte Newsletter
-  htmlContent String?  @db.Text  // HTML-Version für Email/Website
+  content     String  // Der von AI generierte Newsletter
+  htmlContent String?  // HTML-Version für Email/Website
 
   status      NewsletterStatus @default(DRAFT)
   publishedAt DateTime?
@@ -91,7 +91,7 @@ model NewsletterArticle {
 model Config {
   id              String   @id @default(cuid())
   key             String   @unique
-  value           String   @db.Text
+  value           String
   description     String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
