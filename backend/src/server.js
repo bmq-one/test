@@ -65,10 +65,11 @@ async function startServer() {
       logger.info('Cron jobs started');
     }
 
-    // Start Express server
-    app.listen(PORT, () => {
-      logger.info(`Server running on http://localhost:${PORT}`);
+    // Start Express server on all interfaces (0.0.0.0) for external access
+    app.listen(PORT, '0.0.0.0', () => {
+      logger.info(`Server running on http://0.0.0.0:${PORT}`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      logger.info(`External access enabled`);
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
