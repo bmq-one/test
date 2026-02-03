@@ -1,0 +1,33 @@
+# Konfiguration mit Secrets
+config.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv/
+
+# ChromaDB Datenbank
+chroma_db/
+
+# Logs
+logs/
+*.log
+
+# Historie
+processing_history.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
