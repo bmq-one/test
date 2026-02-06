@@ -36,10 +36,10 @@ body {
 /* Header */
 header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 0;
     padding: 40px 20px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 16px;
+    border-radius: 16px 16px 0 0;
     color: white;
     box-shadow: var(--shadow-lg);
 }
@@ -52,6 +52,48 @@ header h1 {
 .subtitle {
     font-size: 1.1rem;
     opacity: 0.9;
+}
+
+/* ==================== Tab Navigation ==================== */
+.tab-nav {
+    display: flex;
+    background: var(--card-bg);
+    border-radius: 0 0 12px 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 16px 24px;
+    border: none;
+    background: var(--card-bg);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+    background: #f1f5f9;
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background: #f0f0ff;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 /* Form Section */
@@ -86,6 +128,7 @@ label {
 }
 
 input[type="text"],
+input[type="date"],
 textarea,
 select {
     width: 100%;
@@ -98,6 +141,7 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="date"]:focus,
 textarea:focus,
 select:focus {
     outline: none;
@@ -139,6 +183,12 @@ textarea {
     margin-right: 10px;
 }
 
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    margin-right: 6px;
+}
+
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
@@ -159,21 +209,24 @@ textarea {
     background-color: #475569;
 }
 
-.btn-edit {
+.btn-edit,
+.btn-edit-project {
     background-color: var(--primary-color);
     color: white;
     padding: 8px 16px;
     font-size: 0.9rem;
 }
 
-.btn-delete {
+.btn-delete,
+.btn-delete-project {
     background-color: var(--danger-color);
     color: white;
     padding: 8px 16px;
     font-size: 0.9rem;
 }
 
-.btn-delete:hover {
+.btn-delete:hover,
+.btn-delete-project:hover {
     background-color: #dc2626;
 }
 
@@ -280,6 +333,11 @@ textarea {
     color: #991b1b;
 }
 
+.badge-complete {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
 .idea-description {
     color: var(--text-secondary);
     margin-bottom: 16px;
@@ -321,17 +379,19 @@ textarea {
 }
 
 .empty-state p:first-child {
-    font-size: 3rem;
+    font-size: 1.4rem;
     margin-bottom: 10px;
+    color: var(--text-primary);
 }
 
 .empty-state p:last-child {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
 }
 
 /* Stats Section */
-.stats-section {
+.stats-section,
+.dashboard-overview {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -358,10 +418,343 @@ textarea {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
+.stat-label-warning {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+/* ==================== Project Cards ==================== */
+.projects-section {
+    margin-bottom: 30px;
+}
+
+.project-card {
+    background: var(--card-bg);
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--primary-color);
+    margin-bottom: 24px;
+    transition: box-shadow 0.3s;
+}
+
+.project-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.project-card.project-complete {
+    opacity: 0.75;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.project-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.project-color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.project-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.project-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.project-description {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.project-deadline {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 6px;
+}
+
+.project-deadline.overdue {
+    background: #fee2e2;
+    color: #991b1b;
+    font-weight: 600;
+}
+
+/* ==================== Progress Bar ==================== */
+.progress-section {
+    margin-bottom: 20px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.progress-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.progress-value {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+/* ==================== Todo Items ==================== */
+.project-todos {
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+.project-todos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.project-todos-header h4 {
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.project-todos-body.collapsed {
+    display: none;
+}
+
+.todo-add-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.todo-input-field {
+    flex: 1;
+    min-width: 160px;
+    padding: 10px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+}
+
+.todo-input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.todo-priority-select {
+    padding: 10px 8px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    width: auto;
+}
+
+.todo-deadline-input {
+    padding: 10px 8px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    width: auto;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.no-todos {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 16px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    transition: background 0.2s;
+}
+
+.todo-item:hover {
+    background: #f1f5f9;
+}
+
+.todo-item.todo-erledigt {
+    opacity: 0.6;
+}
+
+.todo-item.todo-erledigt .todo-text {
+    text-decoration: line-through;
+}
+
+.todo-status-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.todo-status-btn.status-offen {
+    border-color: #94a3b8;
+    color: #94a3b8;
+}
+
+.todo-status-btn.status-in_arbeit {
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+    background: #fffbeb;
+}
+
+.todo-status-btn.status-erledigt {
+    border-color: var(--success-color);
+    color: white;
+    background: var(--success-color);
+}
+
+.todo-status-btn:hover {
+    transform: scale(1.1);
+}
+
+.todo-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.todo-text {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    word-break: break-word;
+}
+
+.todo-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.todo-status-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.todo-status-label.status-offen {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.todo-status-label.status-in_arbeit {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.todo-status-label.status-erledigt {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.todo-deadline {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    padding: 2px 8px;
+    background: #f1f5f9;
+    border-radius: 12px;
+}
+
+.todo-deadline.overdue {
+    background: #fee2e2;
+    color: #991b1b;
+    font-weight: 600;
+}
+
+.todo-delete-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.todo-delete-btn:hover {
+    background: #fee2e2;
+    color: var(--danger-color);
+}
+
+/* ==================== Responsive Design ==================== */
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .form-row {
@@ -384,5 +777,67 @@ textarea {
 
     .filter-controls select {
         width: 100%;
+    }
+
+    .tab-btn {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    .project-header {
+        flex-direction: column;
+    }
+
+    .todo-add-row {
+        flex-direction: column;
+    }
+
+    .todo-input-field,
+    .todo-priority-select,
+    .todo-deadline-input {
+        width: 100%;
+    }
+
+    .dashboard-overview {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 24px 16px;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .add-idea-section {
+        padding: 20px;
+    }
+
+    .project-card {
+        padding: 20px;
+    }
+
+    .dashboard-overview {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
     }
 }
